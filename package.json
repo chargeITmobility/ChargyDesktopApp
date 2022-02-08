@@ -59,6 +59,7 @@
   "build": {
     "appId": "cloud.charging.chargeit.chargy.desktop",
     "productName": "Chargy Transparenzsoftware chargeIT mobility Edition",
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
     "copyright": "Copyright © 2018-2022 GraphDefined GmbH",
     "extraFiles": [
       "build",
