@@ -87,9 +87,7 @@
       "runAfterFinish": true
     },
     "linux": {
-      "target": [
-        "deb"
-      ],
+      "target": ["deb", "rpm", "tar.gz"],
       "icon": "src/icons/chargeITmobility.png"
     },
     "mac": {
