@@ -1349,12 +1349,14 @@ export class BSMCrypt01 extends ACrypt {
         let buffer        = new ArrayBuffer(requiredSize);
         var cryptoBuffer  = new DataView(buffer);
 
+        // FIXME: Factor out creating IBSMCrypt01Result from IBSMMeasurementValue.
         var cryptoResult:IBSMCrypt01Result = {
             status:        chargyInterfaces.VerificationResult.InvalidSignature,
             ArraySize:     requiredSize,
+            // FIXME: Use scale factors provided in JSON data.
             Typ:           chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.Typ,          0, 255,   0),
-            RCR:           chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.RCR,          0,  30,   6),
-            TotWhImp:      chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.TotWhImp,     0,  30,  12),
+            RCR:           chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.RCR,          1,  30,   6),
+            TotWhImp:      chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.TotWhImp,     1,  30,  12),
             W:             chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.W,            1,  27,  18),
             MA1:           chargyLib.SetText_withLength(cryptoBuffer, measurementValue.MA1,                   24),
             RCnt:          chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.RCnt,         0, 255,  24 + MA1_length),
@@ -1519,9 +1521,10 @@ export class BSMCrypt01 extends ACrypt {
         let cryptoResult:IBSMCrypt01Result = {
             status:        chargyInterfaces.VerificationResult.InvalidSignature,
             ArraySize:     requiredSize,
+            // FIXME: Use scale factors provided in JSON data
             Typ:           chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.Typ,          0, 255,   0),
-            RCR:           chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.RCR,          0,  30,   6),
-            TotWhImp:      chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.TotWhImp,     0,  30,  12),
+            RCR:           chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.RCR,          1,  30,   6),
+            TotWhImp:      chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.TotWhImp,     1,  30,  12),
             W:             chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.W,            1,  27,  18),
             MA1:           chargyLib.SetText_withLength(cryptoBuffer, measurementValue.MA1,                   24),
             RCnt:          chargyLib.SetUInt32_withCode(cryptoBuffer, measurementValue.RCnt,         0, 255,  24 + MA1_length),
@@ -1679,8 +1682,8 @@ export class BSMCrypt01 extends ACrypt {
             // https://github.com/chargeITmobility/bsm-python-private/blob/30abc7ba958c936fdb952ed1f121e45d0818419c/doc/examples/snapshots.md#verifying-a-snapshot-with-the-bsm-tool
 
             this.CreateLine("Snapshot-Typ", this.ParseTyp(measurementValue.Typ),                 result.Typ         || "", infoDiv, PlainTextDiv);
-            this.CreateLine("RCR",          measurementValue.RCR + " Wh",                        result.RCR         || "", infoDiv, PlainTextDiv);
-            this.CreateLine("TotWhImp",     measurementValue.TotWhImp + " Wh",                   result.TotWhImp    || "", infoDiv, PlainTextDiv);
+            this.CreateLine("RCR",          measurementValue.RCR * 10 + " Wh",                   result.RCR         || "", infoDiv, PlainTextDiv);
+            this.CreateLine("TotWhImp",     measurementValue.TotWhImp * 10 + " Wh",              result.TotWhImp    || "", infoDiv, PlainTextDiv);
             this.CreateLine("W",            measurementValue.W + " Watt",                        result.W           || "", infoDiv, PlainTextDiv);
             this.CreateLine("MA1",          measurementValue.MA1,                                result.MA1         || "", infoDiv, PlainTextDiv);
             this.CreateLine("RCnt",         measurementValue.RCnt,                               result.RCnt        || "", infoDiv, PlainTextDiv);
